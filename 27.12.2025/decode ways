@@ -1,0 +1,25 @@
+class Solution(object):
+    ans=0
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        l is latest index
+        cand is candidate string
+        """
+        
+        n=len(s)
+        def calc(cand,s,l):
+            if l>=n:
+                Solution.ans+=1
+                return
+            
+            num=int(s[l])
+            if num>0 and num<27:
+                calc(cand+s[l],s,l+1)
+            num=int(s[l:l+2])
+            if num>0 and num<27 and s[l]!='0' and l+1<n:
+                calc(cand+s[l:l+2],s,l+2)
+        Solution.ans=0
+        calc('',s,0)
+        return Solution.ans

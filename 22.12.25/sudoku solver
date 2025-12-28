@@ -1,0 +1,28 @@
+class Solution:
+    def solveSudoku(self, board):
+        self.solve(board)
+
+    def solve(self, board):
+        for row in range(9):
+            for col in range(9):
+                if board[row][col] == ".":
+                    for num in "123456789":
+                        if self.isValid(board, row, col, num):
+                            board[row][col] = num
+                            if self.solve(board):
+                                return True
+                            board[row][col] = "."  # backtrack
+                    return False
+        return True
+
+    def isValid(self, board, row, col, num):
+        for i in range(9):
+            if board[row][i] == num:  # check row
+                return False
+            if board[i][col] == num:  # check col
+                return False
+            boxRow = 3 * (row // 3) + i // 3
+            boxCol = 3 * (col // 3) + i % 3
+            if board[boxRow][boxCol] == num:  # check 3x3 box
+                return False
+        return True

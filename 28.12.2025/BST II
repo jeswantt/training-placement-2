@@ -1,0 +1,28 @@
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        return partition(1, n);
+    }
+
+    private List<TreeNode> partition(int l, int r) {
+        List<TreeNode> res = new LinkedList<>();
+        
+        if(l>r) {
+            res.add(null);
+            return res;
+        }
+
+        for(int rootVal = l; rootVal <= r; rootVal++) {
+            List<TreeNode> lTree = partition(        l, rootVal-1 );
+            List<TreeNode> rTree = partition(rootVal+1,         r );
+
+            for(TreeNode aTree : lTree) {
+                for(TreeNode bTree : rTree) {
+                                TreeNode root = new TreeNode(rootVal);
+                    root.left = aTree;                    root.right = bTree;
+                    res.add(root);
+                }
+            }
+        }
+        return res;
+    }
+}

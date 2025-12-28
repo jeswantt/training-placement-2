@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> ans = new ArrayList<>();
+        int length = 0;
+        int start = 0;
+
+        for (int i = 0; i < words.length; i++) {
+            if ((length + words[i].length() + (i - start)) <= maxWidth) {
+                
+                length += words[i].length();
+            } else {
+                
+                ans.add(buildLine(words, start, i - 1, length, maxWidth, false));
+
+                start = i;
+                length = words[i].length();
+            }
+        }
+
+        ans.add(buildLine(words, start, words.length - 1, length, maxWidth, true));
+        return ans;
+    }
+
+    private String buildLine(String[] words, int start, int end, int length, int maxWidth, boolean lastLine) {
+        StringBuilder str = new StringBuilder();
+        int gaps = end - start;
+
+        if (gaps == 0 || lastLine) {
+             for (int j = start; j <= end; j++) {
+                if (j > start) str.append(" ");
+                str.append(words[j]);
+            }
+            while (str.length() < maxWidth) {
+                str.append(" ");
+            }
+        } else {
+            
+            int space = maxWidth - length;
+            int numSpace = space / gaps;
+            int extra = space % gaps;
+
+            for (int j = start; j <= end; j++) {
+                str.append(words[j]);
+                if (j < end) {
+                    str.append(" ".repeat(numSpace + (extra > 0 ? 1 : 0)));
+                    if (extra > 0) extra--;
+                }
+            }
+        }
+        return str.toString();
+    }
+}

@@ -1,0 +1,22 @@
+class Solution(object):
+    def divide(self, dividend, divisor):
+        intmax = 2**31-1
+        intmin = -2**31
+        if dividend <=intmin and divisor==-1:
+            return intmax
+        sign = -1 if (dividend<0) != (divisor<0) else 1
+        a,b = abs(dividend),abs(divisor)
+        quotient =0
+        while a>=b:
+            temp=b
+            multiple =1
+            while a>=(temp<<1):
+                temp<<=1
+                multiple<<=1
+            a-=temp
+            quotient +=multiple
+        quotient = quotient if sign==1 else -quotient
+
+        return min(max(quotient,intmin),intmax)        
+
+        

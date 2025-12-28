@@ -1,0 +1,41 @@
+class trienode:
+    def __init__(self):
+        self.children = {}
+        self.isend = False
+
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        if not strs:
+            return "" 
+        
+        root = trienode()
+        for word in strs:
+            self.insert(root, word)
+        
+        return self.prefix(root)
+
+    def insert(self, root, word):
+        node = root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = trienode()
+            node = node.children[ch]
+        node.isend = True
+
+    def prefix(self, root):
+        prefix = ""
+        node = root
+
+        while True:
+          
+            if len(node.children) != 1 or node.isend:
+                break
+
+          
+            ch = list(node.children.keys())[0]
+            prefix += ch
+
+            
+            node = node.children[ch]
+
+        return prefix

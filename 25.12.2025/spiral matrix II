@@ -1,0 +1,39 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] spiralMatrix = new int[n][n];
+
+        int up =0, left =0, right = n-1, down =n-1;
+
+        for (int elem = 1; elem <= n*n;) {
+            
+            for (int i = left; i <= right; i++) {
+                spiralMatrix[up][i] = elem;
+                elem++;
+            }
+            up++;
+
+            
+            for (int i = up; i <= down; i++) {
+                spiralMatrix[i][right] = elem;
+                elem++;
+            }
+            right--;
+
+            
+            for (int i = right; i >= left; i--) {
+                spiralMatrix[down][i] = elem;
+                elem++;
+            }
+            down--;
+
+            
+            for (int i = down; i >= up; i--) {
+                spiralMatrix[i][left] = elem;
+                elem++;
+            }
+            left++;
+        }
+        return spiralMatrix;
+        
+    }
+}

@@ -1,0 +1,39 @@
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+class Solution(object):
+    def partition(self, head, x):
+
+        if head is None:
+            return None
+        
+        dummy1 = ListNode(0)
+        dummy2 = ListNode(0)
+
+        d1 = dummy1
+        d2 = dummy2
+
+        current = head
+
+        while current:
+            if current.val >= x:
+                d2.next = current
+                d2 = current
+                
+
+            elif current.val < x:
+                d1.next = current
+                d1 = current
+            
+            current = current.next
+        
+        d1.next = dummy2.next
+        d2.next = None
+        head = dummy1.next
+        return head
+        
+
+        
+        

@@ -1,0 +1,27 @@
+class Solution(object):
+    def combine(self, n, k):
+        arr = [i for i in range(1, n+1)]
+        result = []
+        path = []
+
+        def run(idx):
+            if len(path) + (n - idx) < k:  
+                return
+
+            if len(path) == k:
+                result.append(path[:])
+                return 
+
+            if idx >= len(arr):
+                return
+
+           
+            path.append(arr[idx])
+            run(idx + 1)
+            path.pop()
+
+           
+            run(idx + 1)
+
+        run(0)
+        return result

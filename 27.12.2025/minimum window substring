@@ -1,0 +1,29 @@
+class Solution(object):
+    def minWindow(self, s, t):
+        """s: str; t: str; str
+        """
+      
+        l = r = 0; n = len(s)
+        ret = ""; ref_len = float('inf')
+        hashmap = defaultdict(int); window = defaultdict(int)
+        need_n = len(t); count = 0 
+        for ch in t:
+            hashmap[ch] += 1
+        for l in range(n):
+            while r < n and count < need_n: 
+                if hashmap[s[r]] != 0:   
+                    window[s[r]] += 1
+                    if window[s[r]] <= hashmap[s[r]]: 
+                        count += 1
+                if count == need_n and r-l+1 < ref_len:
+                    ref_len = r-l+1
+                    ret = s[l:r+1]
+                r += 1
+            if count == need_n and r-l < ref_len:   
+                ref_len = r-l  
+                ret = s[l:r]
+            if hashmap[s[l]] != 0:  # 左扩
+                if window[s[l]] <= hashmap[s[l]]: 
+                    count -= 1
+                window[s[l]] -= 1
+        return ret

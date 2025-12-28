@@ -1,0 +1,25 @@
+class Solution:
+    def reverseKGroup(self, head, k):
+        if head and not isinstance(head, list):
+            nodes = []
+            curr = head
+            while curr:
+                nodes.append(curr)
+                curr = curr.next
+            head = nodes
+        
+        res = []
+        for i in range(0, len(head), k):
+            group = head[i:i + k]
+            if len(group) == k:
+                res += group[::-1]
+            else:
+                res += group
+        
+        dummy = ListNode(0)
+        curr = dummy
+        for node in res:
+            node.next = None
+            curr.next = node
+            curr = node
+        return dummy.next

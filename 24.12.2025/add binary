@@ -1,0 +1,15 @@
+class Solution(object):
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        binary1 = a 
+        binary2 = b  
+
+        decimal_sum = int(binary1, 2) + int(binary2, 2)
+        binary_result = bin(decimal_sum)
+        return binary_result[2:]
+
+        

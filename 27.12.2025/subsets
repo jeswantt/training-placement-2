@@ -1,0 +1,18 @@
+class Solution(object):
+    def subsets(self, nums):
+        result = []
+        path = []
+
+        def run(idx):
+            if idx >= len(nums):
+                result.append(path[:])  
+                return
+
+            path.append(nums[idx])
+            run(idx + 1)
+            path.pop()
+
+            run(idx + 1)
+
+        run(0)
+        return result

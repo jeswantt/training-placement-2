@@ -1,0 +1,31 @@
+class Solution(object):
+    def generateMatrix(self, n):
+        matrix = [[0] * n for i in range(n)]
+        t, l, b, r = 0, 0, n, n
+        counter = 0
+        while t < b and l < r:
+           
+            for i in range(l, r):
+                counter += 1
+                matrix[t][i] = counter
+            t += 1
+           
+            for i in range(t, b):
+                counter += 1
+                matrix[i][r - 1] = counter
+            r -= 1
+
+            if not (l < r and t < b):
+                break
+
+            for i in range(r - 1, l - 1, -1):
+                counter += 1
+                matrix[b - 1][i] = counter
+            b -= 1
+           
+            for i in range(b - 1, t - 1, -1):
+                counter += 1
+                matrix[i][l] = counter
+            l += 1
+
+        return matrix

@@ -1,0 +1,30 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][][] dp = new int[n][2][3];
+        for(int[][] i : dp){
+            for(int[] j : i){
+                Arrays.fill(j, -1);
+            }
+        }
+        return profit(prices, 1, 0, 2, dp); 
+    }
+
+    private int profit(int[] prices, int buy, int ind, int cap, int[][][] dp){
+        if(ind == prices.length || cap == 0) return 0;
+
+        if(dp[ind][buy][cap] != -1) return dp[ind][buy][cap];
+
+        int profit = 0;
+        if(buy == 1){
+            int take = - prices[ind] + profit(prices, 0, ind + 1, cap, dp);
+            int noTake = profit(prices, 1, ind + 1, cap, dp);
+            profit = Math.max(take, noTake);
+        } else {
+            int sell = prices[ind] + profit(prices, 1, ind + 1, cap - 1, dp);
+            int noSell = profit(prices, 0, ind + 1, cap, dp);
+            profit = Math.max(sell, noSell);
+        }
+        return dp[ind][buy][cap] = profit;
+    }
+}

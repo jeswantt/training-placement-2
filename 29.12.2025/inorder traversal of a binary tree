@@ -1,0 +1,30 @@
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int n = inorder.length;
+        int p = postorder.length;
+        HashMap<Integer, Integer> inOrderMap = new HashMap<>();
+        List<Integer> postOrderList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            inOrderMap.put(inorder[i], i);
+        }
+        for (int i = 0; i < p; i++) {
+            postOrderList.add(postorder[i]);
+        }
+
+        return (createTree(postOrderList, inOrderMap, 0, n - 1));
+        
+    }
+
+    public TreeNode createTree(List<Integer> postOrder, HashMap<Integer, Integer> inOrderMap, int leftInOrder, int rightInOrder) {
+        if (leftInOrder > rightInOrder) return null;
+        int val = postOrder.remove(postOrder.size() - 1);
+        TreeNode root = new TreeNode(val);
+        root.right = null;
+        root.left = null;
+        int index = inOrderMap.get(val);
+        root.right = createTree(postOrder, inOrderMap, index + 1, rightInOrder);
+        root.left = createTree(postOrder, inOrderMap, leftInOrder, index - 1);
+        return root;
+    }
+}
+

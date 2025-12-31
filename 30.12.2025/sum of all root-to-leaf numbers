@@ -1,0 +1,26 @@
+class Solution(object):
+    def sumNumbers(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: int
+        """
+        dum = root
+        b = ""
+        d = []
+        def p(dum,d,b):
+            if dum:
+                b += str(dum.val)
+                
+                if not(dum.left) and not(dum.right):
+                    d.append(b)
+                      
+                d = p(dum.left,d,b)
+                d = p(dum.right,d,b)
+            
+            return d
+
+        o = p(dum,d,b)
+
+        for i in range(len(o)):
+            o[i] = int(o[i])
+        return sum(o)

@@ -1,0 +1,53 @@
+class Solution(object):
+    def copyRandomList(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        if head is None:
+            return None
+
+        current = head
+
+        while current is not None:
+            
+            new_node = Node(x=current.val, next=current.next)
+           
+            current.next = new_node
+
+            current = current.next.next
+
+        current = head
+        while current is not None:
+           
+            copy = current.next
+            
+            if current.random is not None:
+                copy.random = current.random.next
+            else:
+                copy.random = None
+
+            current = current.next.next
+
+        copied_head = head.next
+        current = head.next
+        
+        current_old = head
+
+        while current is not None:
+            
+            if current_old.next is not None:
+                current_old.next = current_old.next.next
+                current_old = current_old.next
+            else:
+                current_old.next = None
+                current_old = None
+
+            if current.next is not None:
+                current.next = current.next.next
+                current = current.next
+            else:
+                current.next = None
+                current = None
+
+        return copied_head

@@ -1,0 +1,23 @@
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        List<Integer> lis = new ArrayList<>();
+
+        while (head != null) {
+            lis.add(head.val);
+            head = head.next;
+        }
+
+        Collections.sort(lis);
+
+        ListNode node = new ListNode(lis.get(0));
+        ListNode temp = node;
+
+        for (int i = 1; i < lis.size(); i++) {
+            ListNode newNode = new ListNode(lis.get(i));
+            temp.next = newNode;
+            temp = newNode;
+        }
+
+        return node;
+    }
+}

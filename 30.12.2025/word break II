@@ -1,0 +1,37 @@
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        """
+        wordList = []
+        for word in wordDict:
+            if word in s:
+                wordList.append(word)
+        self.memCache = {}
+        sentenceList = self.solve(0, s, wordList)
+        return sentenceList
+
+    def solve(self, i, s, wordList):
+        if i == len(s):
+            return [""]
+
+        substring = s[i:]
+        if substring in self.memCache:
+            return self.memCache[substring] 
+
+        validSentences = []
+
+        for word in wordList:
+            if substring.startswith(word):
+                remainingWords = self.solve(i + len(word), s, wordList)
+                for remainingWord in remainingWords:
+                    if remainingWord != "":
+                        validSentences.append(word + " " + remainingWord)
+                    else:
+                        validSentences.append(word)
+        
+        self.memCache[substring]=validSentences
+        return validSentences
+        

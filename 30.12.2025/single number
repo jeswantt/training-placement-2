@@ -1,0 +1,11 @@
+class Solution(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) == 1: return nums[0]
+        nums_sorted = sorted(nums)
+        for i in range(0, len(nums)-1, 2):
+            if nums_sorted[i] != nums_sorted[i+1]: return nums_sorted[i]
+        return nums_sorted[-1]

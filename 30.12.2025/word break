@@ -1,0 +1,22 @@
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        
+        self.memo={}
+        def helper(idx):
+
+            if idx==len(s):
+
+                return True
+
+            if idx in self.memo:
+                return self.memo[idx]
+
+            for j in range(idx+1,len(s)+1):
+
+                if s[idx:j] in wordDict and helper(j)==True:
+
+                    self.memo[idx]=True
+                    return self.memo[idx]
+            self.memo[idx]=False
+            return self.memo[idx]
+        return helper(0)

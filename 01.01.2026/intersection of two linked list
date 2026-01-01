@@ -1,0 +1,18 @@
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        a=set()  
+        c=headA  
+        while c:
+            a.add(c)  
+            c=c.next 
+        c=headB 
+        while c: 
+            if c in a:
+                return c 
+            c=c.next
+        return None 
+        

@@ -1,0 +1,13 @@
+class Solution(object):
+    def convertToTitle(self, columnNumber):
+        """
+        :type columnNumber: int
+        :rtype: str
+        """
+        result = ""
+        while columnNumber > 0:
+            columnNumber -= 1                 # shift to 0-indexed
+            remainder = columnNumber % 26     # find position (0-25)
+            result = chr(65 + remainder) + result
+            columnNumber //= 26               # reduce the number
+        return result

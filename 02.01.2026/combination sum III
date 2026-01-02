@@ -1,0 +1,25 @@
+class Solution {
+
+    List<List<Integer>>res=new ArrayList<>();
+
+    void solve(int st,int k,int tar,List<Integer>l){
+        if(tar==0&&l.size()==k){
+            res.add(new ArrayList<>(l));
+            return;
+        }
+
+
+        for(int i=st;i<=9;i++){
+            if(i>tar) break;
+            l.add(i);
+            solve(i+1,k,tar-i,l);
+            l.remove(l.size()-1);
+        }
+    }
+
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        
+        solve(1,k,n,new ArrayList<>());
+        return res;
+    }
+}

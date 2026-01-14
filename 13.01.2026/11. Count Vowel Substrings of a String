@@ -1,0 +1,18 @@
+class Solution {
+    public int countVowelSubstrings(String str) {
+        
+        int n = str.length();
+        int count = 0;
+
+        for(int i =0;i<= (n-5);i++){
+            HashSet<Character> set = new HashSet<>();
+
+            for(int p = i;p<n;p++){
+                if(str.charAt(p) != 'a' && str.charAt(p) != 'e' && str.charAt(p) != 'i' && str.charAt(p) != 'o' && str.charAt(p) != 'u') break;
+                set.add(str.charAt(p));
+                if(set.size() == 5) count++;
+            }
+        }
+        return count ;
+    }
+}

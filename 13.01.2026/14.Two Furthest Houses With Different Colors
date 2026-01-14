@@ -1,0 +1,23 @@
+class Solution {
+    public int maxDistance(int[] colors) {
+        int l=0,r=0;
+        int n= colors.length;
+        int maxi =Integer.MIN_VALUE;
+        for(int i=1;i<n;i++)
+        {
+            if(colors[i]!=colors[0])
+            {
+                maxi =Math.max(maxi,i);
+            }
+        }
+        for(int i=0;i<n-1;i++)
+        {
+            if(colors[i] != colors[n-1])
+            {
+                maxi =Math.max(maxi,n-1-i);
+            }
+        }
+        return maxi;
+        
+    }
+}

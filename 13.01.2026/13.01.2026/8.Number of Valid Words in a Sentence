@@ -1,0 +1,42 @@
+class Solution {
+    public int countValidWords(String sentence) {
+        String[] s=sentence.split(" ");
+        int c=0;
+        for(int i=0;i<s.length;i++){
+            if(s[i].length()==0) continue;
+            int h_c=0;
+            int p_c=0;
+            Boolean valid=true;
+            for(int j=0;j<s[i].length();j++){
+                char ch=s[i].charAt(j);
+
+                //Rule 1
+                if(Character.isDigit(ch)){
+                    valid=false;
+                    break;
+                }
+                //Rule 2
+                if(ch=='-'){
+                    h_c++;
+                    if(h_c>1 || j==0 || j==s[i].length()-1 || 
+                    (!Character.isLowerCase(s[i].charAt(j-1))) || 
+                    (!Character.isLowerCase(s[i].charAt(j+1))) ){
+                        valid=false;
+                        break;
+                    }
+                }
+                //Rule 3
+                else if(!Character.isLowerCase(ch)){
+                    p_c++;
+                    if(p_c>1 || j!=s[i].length()-1){
+                        valid=false;
+                        break;
+                    }
+                }
+            }
+            if(valid)
+            c++;
+        }
+        return c;
+    }
+}

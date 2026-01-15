@@ -1,0 +1,40 @@
+class Solution(object):
+    def mostCommonWord(self, para, ban):
+        """
+        :type paragraph: str
+        :type banned: List[str]
+        :rtype: str
+        """
+        l=0
+        c=0
+        para=para.lower()
+        para=para.split(",")
+        para=" ".join(para)
+        para=para.split(".")
+        para=" ".join(para)
+        para=para.split("!")
+        para=" ".join(para)
+        para=para.split("?")
+        para=" ".join(para)
+        para=para.split("'")
+        para=" ".join(para)
+        para=para.split('"')
+        para=" ".join(para)
+        para=para.split(":")
+        para=" ".join(para)
+        para=para.split(';')
+        para=" ".join(para)
+        para=para.strip()
+        para=para.split()
+        for i in ban:
+            print(para.count(i))
+            for j in range(para.count(i)):
+                para.remove(i)
+                print(para)
+        for ind,k in enumerate(para):
+            print(ind,k.lower())
+            a=para.count(k.lower())
+            if a > c:
+                c=a
+                l=ind
+        return para[l]

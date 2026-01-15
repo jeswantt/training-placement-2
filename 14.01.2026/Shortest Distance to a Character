@@ -1,0 +1,14 @@
+class Solution(object):
+    def shortestToChar(self, s, c):
+        positions=[]
+        for i in range(len(s)):
+            if(s[i]==c):
+                positions.append(i)
+
+        result=[]
+        for i in range(len(s)):
+            min_dist=float('inf')
+            for p in positions:
+                min_dist=min(min_dist,abs(i-p))
+            result.append(min_dist)
+        return result

@@ -1,0 +1,112 @@
+class AreaInfo {
+    Set<List<Integer>> nodes;
+    int id;
+    int numExposed;
+
+    public AreaInfo(int id) {
+        this.nodes = new HashSet<>();
+        this.id = id;
+        this.numExposed = 0;
+    }
+}
+
+class Solution {
+    private final int HEALTHY = 0, UNHEALTHY = 1, FOUND = 2, CONTAMINATED = 3;
+    private final List<Integer[]> directions = List.of(
+            new Integer[] {0, 1}, new Integer[] {0, -1},
+            new Integer[] {1, 0}, new Integer[] {-1, 0}
+    );
+    private Set<List<Integer>> exposed = new HashSet<>();
+
+    public int containVirus(int[][] isInfected) {
+        Map<Integer, AreaInfo> infectedAreas = getInfectedAreas(isInfected);
+        int currentArea = infectedAreas.values().stream().sorted((o1, o2) -> o2.numExposed - o1.numExposed)
+                .map(i-> i.id).limit(1).findFirst().orElse(-1);
+        int numWalls = 0;
+        while (currentArea != -1) {
+            AreaInfo areaInfo = infectedAreas.get(currentArea);
+            List<Integer> start = areaInfo.nodes.stream().limit(1).collect(Collectors.toList()).get(0);
+            numWalls += surroundWithWalls(start.get(0), start.get(1), isInfected, 0);
+            int finalCurrentArea = currentArea;
+            infectedAreas.values().forEach(area-> {
+                if(area.id != finalCurrentArea) {
+                    Set<List<Integer>> initialNodes = new HashSet<>(area.nodes);
+                    initialNodes.forEach(node -> {
+                        expandVirus(node.get(0), node.get(1), isInfected, area, 0);
+                    });
+                }
+            });
+            infectedAreas = getInfectedAreas(isInfected);
+            currentArea = infectedAreas.values().stream().sorted((o1, o2) -> o2.numExposed - o1.numExposed)
+                    .map(i-> i.id).limit(1).findFirst().orElse(-1);
+        }
+        return numWalls;
+    }
+
+    private void expandVirus(Integer i, Integer j, int[][] isInfected, AreaInfo areaInfo, int depth) {
+        if(isInfected[i][j] == CONTAMINATED) return;
+        areaInfo.nodes.add(List.of(i, j));
+        isInfected[i][j] = 1;
+        for (Integer[] direction: directions) {
+            int x = direction[0] + i, y = direction[1] + j;
+            if(depth == 0 && isValid(x, y , isInfected) && isInfected[x][y] == HEALTHY)
+                expandVirus(x, y, isInfected, areaInfo, depth + 1);
+        }
+    }
+
+    private int surroundWithWalls(int i, int j, int[][] isInfected, int walls) {
+        if(isInfected[i][j] == CONTAMINATED) return 0;
+        isInfected[i][j] = CONTAMINATED;
+        for (Integer[] direction: directions) {
+            int x = direction[0] + i, y = direction[1] + j;
+            if(isValid(x, y , isInfected) && isInfected[x][y] == HEALTHY) {
+                walls++;
+            }
+        }
+        for (Integer[] direction: directions) {
+            int x = direction[0] + i, y = direction[1] + j;
+            if(isValid(x, y , isInfected) && isInfected[x][y] == FOUND)
+                walls = surroundWithWalls(x, y, isInfected, walls);
+        }
+        return walls;
+    }
+
+    private Map<Integer, AreaInfo> getInfectedAreas(int[][] isInfected) {
+        Map<Integer, AreaInfo> infectedAreas = new HashMap<>();
+        int areaId =  0;
+        for (int i = 0; i < isInfected.length; i++) {
+            for (int j = 0; j < isInfected[0].length; j++) {
+                if(isInfected[i][j] == 1) {
+                    AreaInfo areaInfo = new AreaInfo(areaId);
+                    exposed = new HashSet<>();
+                    searchInfected(i, j, isInfected, areaInfo);
+                    infectedAreas.put(areaInfo.id, areaInfo);
+                    areaId++;
+                }
+            }
+        }
+        return infectedAreas;
+    }
+
+    private void searchInfected(int i, int j, int[][] isInfected, AreaInfo areaInfo) {
+        if(isInfected[i][j] == CONTAMINATED) return;
+        areaInfo.nodes.add(List.of(i, j));
+        isInfected[i][j] = FOUND;
+        for (Integer[] direction: directions) {
+            int x = direction[0] + i, y = direction[1] + j;
+            if(isValid(x, y , isInfected) && !exposed.contains(List.of(x, y)) && isInfected[x][y] == HEALTHY) {
+                areaInfo.numExposed++;
+                exposed.add(List.of(x, y));
+            }
+        }
+        for (Integer[] direction: directions) {
+            int x = direction[0] + i, y = direction[1] + j;
+            if(isValid(x, y , isInfected) && isInfected[x][y] == UNHEALTHY)
+                searchInfected(x, y, isInfected, areaInfo);
+        }
+    }
+
+    private boolean isValid(int i, int j, int[][] isInfected) {
+        return i >= 0 && i < isInfected.length && j >= 0 && j < isInfected[0].length;
+    }
+}

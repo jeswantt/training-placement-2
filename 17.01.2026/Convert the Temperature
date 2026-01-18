@@ -1,0 +1,26 @@
+import java.util.Scanner;
+class Solution {
+    
+    public double[] convertTemperature(double celsius) {
+        double kelvin=0.00;
+        double fahrenheit=0.00;
+        if(celsius !=0.0){
+            kelvin=kelvin+celsius +273.15;
+            fahrenheit=fahrenheit +celsius*1.80+32.00;
+
+        }
+        else{
+            kelvin =273.1500;
+            fahrenheit=32.00000;
+        }
+        return  new double [] {kelvin ,fahrenheit};
+
+    }
+    public static void main(String args[]){
+    Scanner sc =new Scanner(System.in);
+    double celsius=sc.nextDouble();
+    Solution sol=new Solution();
+    sol.convertTemperature(celsius);
+
+    }
+}

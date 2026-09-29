@@ -1,0 +1,54 @@
+class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        Stack<Integer> st = new Stack<>();
+        int count = 0;
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)!='('&&s.charAt(i)!=')')
+                continue;
+            if(s.charAt(i)=='(')
+                st.push(i);
+            else{
+                if(!st.isEmpty()&&s.charAt(st.peek())=='(')
+                    st.pop();
+                else
+                    count++;
+            }
+        }
+        count+=st.size();
+        List<String> list = new ArrayList<>();
+        HashSet<String> set = new HashSet<>();
+        rec(s,0,"",count,set);
+        for(String temp : set)
+            list.add(temp);
+        return list;
+    }
+    public void rec(String s,int i,String temp,int count,HashSet<String> set){
+        if(i==s.length()){
+            if(count==0&&isValid(temp))
+                set.add(temp);
+            return;
+        }
+        if(s.charAt(i)!='('&&s.charAt(i)!=')')
+            rec(s,i+1,temp+s.charAt(i),count,set);
+        else{
+            rec(s,i+1,temp,count-1,set);
+            rec(s,i+1,temp+s.charAt(i),count,set);
+        }
+    }
+    public boolean isValid(String s){
+         Stack<Integer> st = new Stack<>();
+           for(int i=0;i<s.length();i++){
+            if(s.charAt(i)!='('&&s.charAt(i)!=')')
+                continue;
+            if(s.charAt(i)=='(')
+                st.push(i);
+            else{
+                if(!st.isEmpty()&&s.charAt(st.peek())=='(')
+                    st.pop();
+                else
+                    return false;
+            }
+        }
+        return st.isEmpty();
+    }
+}
